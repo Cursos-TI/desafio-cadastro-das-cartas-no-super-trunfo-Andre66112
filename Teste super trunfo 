@@ -1,25 +1,116 @@
-#include <stdi.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
- int main(){
+#define NUM_ESTADOS 5 // Número de estados no jogo
+// Estrutura para armazenar os atributos de um estado
+typedef struct {
+    char nome[30];
+    int populacao; // em milhões
+    int area; // em mil km²
+    float pib; // em trilhões de reais
+    float idh; // Índice de Desenvolvimento Humano
+} Estado;
 
+// Função para inicializar os estados
+void inicializarEstados(Estado estados[]) {
+    strcpy(estados[0].nome, "São Paulo");
+    estados[0].populacao = 46;
+    estados[0].area = 248;
+    estados[0].pib = 2.4;
+    estados[0].idh = 0.83;
+    
+    strcpy(estados[1].nome, "Bahia");
+    estados[1].populacao = 15;
+    estados[1].area = 564;
+    estados[1].pib = 0.3;
+    estados[1].idh = 0.72;
+    
+    strcpy(estados[2].nome, "Minas Gerais");
+    estados[2].populacao = 21;
+    estados[2].area = 586;
+    estados[2].pib = 0.7;
+    estados[2].idh = 0.77;
+    
+    strcpy(estados[3].nome, "Rio de Janeiro");
+    estados[3].populacao = 17;
+    estados[3].area = 43;
+    estados[3].pib = 0.9;
+    estados[3].idh = 0.80;
+    
+    strcpy(estados[4].nome, "Paraná");
+    estados[4].populacao = 11;
+    estados[4].area = 199;
+    estados[4].pib = 0.5;
+    estados[4].idh = 0.79;
+}
 
- char estado[50], cód_carta[50], nome_cidade[50];
- int populacao, num_pontos_turisticos, opcao;
- float area_km, pib;
+// Função para sortear uma carta para o jogador
+Estado sortearCarta(Estado estados[]) {
+    return estados[rand() % NUM_ESTADOS];
+}
 
+// Função para comparar os atributos escolhidos pelos jogadores
+void compararCartas(Estado carta1, Estado carta2, int atributo) {
+    float valor1, valor2;
+    char atributoNome[20];
+    
+    switch (atributo) {
+        case 1:
+            valor1 = carta1.populacao;
+            valor2 = carta2.populacao;
+            strcpy(atributoNome, "População");
+            break;
+        case 2:
+            valor1 = carta1.area;
+            valor2 = carta2.area;
+            strcpy(atributoNome, "Área");
+            break;
+        case 3:
+            valor1 = carta1.pib;
+            valor2 = carta2.pib;
+            strcpy(atributoNome, "PIB");
+            break;
+        case 4:
+            valor1 = carta1.idh;
+            valor2 = carta2.idh;
+            strcpy(atributoNome, "IDH");
+            break;
+        default:
+            printf("Atributo inválido!\n");
+            return;
+    }
+    
+    printf("\n%s do %s: %.2f\n", atributoNome, carta1.nome, valor1);
+    printf("%s do %s: %.2f\n", atributoNome, carta2.nome, valor2);
+    
+    if (valor1 > valor2) {
+        printf("\nJogador 1 venceu esta rodada!\n");
+    } else if (valor2 > valor1) {
+        printf("\nJogador 2 venceu esta rodada!\n");
+    } else {
+        printf("\nEmpate!\n");
+    }
+}
 
-
-
- printf("BEM VINDO AO SUPER TRUNFO PAÍSES!");
- printf("---------------------------------");
-
- printf("ESCOLHA UMA OPÇÃO:");
- printf("1 - INICIAR O JOGO");
- printf("2 - REGRAS DO JOGO");
- printf("3 - SAIR DO JOGO");
- scanf("%d", &opcao);
-
- switch (opcao) {
-
-    case 1:
-        printf("INICIANDO O JOGO...");
+int main() {
+    srand(time(NULL));
+    Estado estados[NUM_ESTADOS];
+    inicializarEstados(estados);
+    
+    Estado cartaJogador1 = sortearCarta(estados);
+    Estado cartaJogador2 = sortearCarta(estados);
+    
+    printf("\nJogador 1 tirou: %s\n", cartaJogador1.nome);
+    printf("Jogador 2 tirou: %s\n", cartaJogador2.nome);
+    
+    printf("\nEscolha um atributo para comparar:\n");
+    printf("1 - População\n2 - Área\n3 - PIB\n4 - IDH\n");
+    int escolha;
+    scanf("%d", &escolha);
+    
+    compararCartas(cartaJogador1, cartaJogador2, escolha);
+    
+    return 0;
+}
