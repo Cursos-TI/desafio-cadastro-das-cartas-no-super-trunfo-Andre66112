@@ -1,0 +1,25 @@
+#include <stdi.h>
+
+ int main(){
+
+
+ char estado[50], cód_carta[50], nome_cidade[50];
+ int populacao, num_pontos_turisticos, opcao;
+ float area_km, pib;
+
+
+
+
+ printf("BEM VINDO AO SUPER TRUNFO PAÍSES!");
+ printf("---------------------------------");
+
+ printf("ESCOLHA UMA OPÇÃO:");
+ printf("1 - INICIAR O JOGO");
+ printf("2 - REGRAS DO JOGO");
+ printf("3 - SAIR DO JOGO");
+ scanf("%d", &opcao);
+
+ switch (opcao) {
+
+    case 1:
+        printf("INICIANDO O JOGO...");
